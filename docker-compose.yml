@@ -9,71 +9,21 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /home/www/public_html/dev.crytera.com:/home/www/public_html/dev.crytera.com
+      - /home/www/public_html/${DOC_ROOT}:/home/www/public_html/${DOC_ROOT}
       - /etc/ssl/certs:/etc/ssl/certs
       - /etc/ssl/private:/etc/ssl/private
-      - ./site.conf:/etc/nginx/conf.d/site.conf
-      - ./proxy.conf:/etc/nginx/proxy.conf
+      - ./etc/nginx/site.conf:/etc/nginx/conf.d/site.conf
+      - ./etc/nginx/proxy.conf:/etc/nginx/proxy.conf
     links:
       - php
       - mysqldb
 
   php:
-    #image: php:7-fpm
-    #image: thinegan-php5:latest
-    image: thinegan/php7:latest
+    image: thinegan/debian-php7:latest
     expose:
       - "9000"
     volumes:
-      - /home/www/public_html/dev.crytera.com:/home/www/public_html/dev.crytera.com
-      - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini
-    links:
-      - mysqldb
-
-  mysqldb:
-    image: mysql
-    container_name: ${MYSQL_HOST}
-    restart: always
-    env_file:
-      - ".env"
-    environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
-    volumes:
-      - "./data/db/mysql:/var/lib/mysql"
-root@devel:/home/thinegan/test-nginx $cat docker-compose.yml 
-version: "2.1"
-
-services:
-  webserver1:
-    image: nginx:latest
-    container_name: nginx1
-    hostname: nginxserver1
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /home/www/public_html/dev.crytera.com:/home/www/public_html/dev.crytera.com
-      - /etc/ssl/certs:/etc/ssl/certs
-      - /etc/ssl/private:/etc/ssl/private
-      - ./site.conf:/etc/nginx/conf.d/site.conf
-      - ./proxy.conf:/etc/nginx/proxy.conf
-    links:
-      - php
-      - mysqldb
-
-  php:
-    #image: php:7-fpm
-    #image: thinegan-php5:latest
-    image: thinegan/php7:latest
-    expose:
-      - "9000"
-    volumes:
-      - /home/www/public_html/dev.crytera.com:/home/www/public_html/dev.crytera.com
+      - /home/www/public_html/${DOC_ROOT}:/home/www/public_html/${DOC_ROOT}
       - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini
     links:
       - mysqldb
