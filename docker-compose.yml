@@ -2,9 +2,8 @@ version: "2.1"
 
 services:
   webserver1:
-    image: nginx:latest
-    container_name: nginx1
-    hostname: nginxserver1
+    image: nginx:${NGINX_VERSION}
+    container_name: ${NGINX_HOST}
     ports:
       - "80:80"
       - "443:443"
@@ -19,7 +18,7 @@ services:
       - mysqldb
 
   php:
-    image: thinegan/debian-php7:latest
+    image: thinegan/debian-php7:${PHP_VERSION}
     expose:
       - "9000"
     volumes:
