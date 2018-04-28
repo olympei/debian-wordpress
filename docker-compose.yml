@@ -12,6 +12,7 @@ services:
       - /etc/ssl/certs:/etc/ssl/certs
       - /etc/ssl/private:/etc/ssl/private
       - ./etc/nginx/site.conf:/etc/nginx/conf.d/site.conf
+      - ./etc/nginx/gzip.conf:/etc/nginx/conf.d/gzip.conf
       - ./etc/nginx/proxy.conf:/etc/nginx/proxy.conf
     links:
       - php
